@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تحليل اختبارات الطلاب</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #results {
+            margin-top: 20px;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <h1>موقع تحليل اختبارات الطلاب</h1>
+    <p>قم برفع ملف الاختبار لتحصل على تحليل سريع</p>
+
+    <input type="file" id="testFile" accept=".txt,.csv">
+    <button onclick="analyzeTest()">تحليل الاختبار</button>
+
+    <div id="results"></div>
+
+    <script>
+        function analyzeTest() {
+            const fileInput = document.getElementById('testFile');
+            const resultsDiv = document.getElementById('results');
+
+            if (!fileInput.files.length) {
+                resultsDiv.innerHTML = "الرجاء اختيار ملف أولاً";
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const text = e.target.result;
+                
+                // هنا يمكنك إضافة منطق التحليل
+                const lines = text.split('\n');
+                let score = 0;
+                lines.forEach(line => {
+                    if(line.trim() === "صحيح") score++;
+                });
+
+                resultsDiv.innerHTML = "درجة الطالب: " + score + " من " + lines.length;
+            }
+
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>

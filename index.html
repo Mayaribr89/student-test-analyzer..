@@ -1,65 +1,61 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <title>تحليل اختبارات الطلاب</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        input, button {
-            padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-        }
-        #results {
-            margin-top: 20px;
-            color: #e74c3c;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Student Test Analyzer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      text-align: center;
+      padding: 40px;
+    }
+    .box {
+      background: white;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    input, button {
+      margin: 10px;
+      padding: 10px;
+      width: 80%;
+    }
+  </style>
 </head>
 <body>
-    <h1>موقع تحليل اختبارات الطلاب</h1>
-    <p>قم برفع ملف الاختبار لتحصل على تحليل سريع</p>
 
-    <input type="file" id="testFile" accept=".txt,.csv">
-    <button onclick="analyzeTest()">تحليل الاختبار</button>
+  <div class="box">
+    <h2>تحليل امتحان طالب</h2>
 
-    <div id="results"></div>
+    <p>أدخل عدد الأسئلة:</p>
+    <input type="number" id="total" placeholder="مثلاً 20">
 
-    <script>
-        function analyzeTest() {
-            const fileInput = document.getElementById('testFile');
-            const resultsDiv = document.getElementById('results');
+    <p>أدخل عدد الإجابات الصحيحة:</p>
+    <input type="number" id="correct" placeholder="مثلاً 15">
 
-            if (!fileInput.files.length) {
-                resultsDiv.innerHTML = "الرجاء اختيار ملف أولاً";
-                return;
-            }
+    <button onclick="calc()">احسب النتيجة</button>
 
-            const file = fileInput.files[0];
-            const reader = new FileReader();
+    <h3 id="result"></h3>
+  </div>
 
-            reader.onload = function(e) {
-                const text = e.target.result;
-                
-                // هنا يمكنك إضافة منطق التحليل
-                const lines = text.split('\n');
-                let score = 0;
-                lines.forEach(line => {
-                    if(line.trim() === "صحيح") score++;
-                });
+  <script>
+    function calc() {
+      let total = document.getElementById("total").value;
+      let correct = document.getElementById("correct").value;
 
-                resultsDiv.innerHTML = "درجة الطالب: " + score + " من " + lines.length;
-            }
+      if (total == "" || correct == "") {
+        document.getElementById("result").innerText = "يرجى إدخال كل القيم";
+        return;
+      }
 
-            reader.readAsText(file);
-        }
-    </script>
+      let percent = (correct / total) * 100;
+      document.getElementById("result").innerText =
+        "النتيجة: " + percent.toFixed(2) + "%";
+    }
+  </script>
+
 </body>
 </html>
